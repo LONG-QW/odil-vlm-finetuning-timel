@@ -59,8 +59,9 @@ Les observations principales sont les suivantes :
 Une tentative intermédiaire a consisté à générer une description de l’image, puis à apparier a posteriori les mots produits avec le fichier `classe.tsv`.  
 Cette approche, fondée sur une correspondance lexicale, ne garantit ni cohérence ni reproductibilité, et ne répond pas aux exigences d’une annotation fondée sur une taxonomie fermée.
 
-Modèles également observés à titre de comparaison :
-- `davanstrien/iconclass-vlm` : sorties structurées (Iconclass) mais non transférables directement à *timel* sans nouvel entraînement.
+Modèle comparatif testé (pré-entraîné / fine-tuné sur Iconclass) :
+- `small-models-for-glam/iconclass-vlm` : le modèle produit des sorties structurées en codes Iconclass, mais ces codes ne sont pas alignés avec la taxonomie *timel* et ne sont pas directement transférables sans ré-entraînement.
+
 
 ---
 
