@@ -1,6 +1,7 @@
 # Fine-tuning d’un Vision-Language Model pour l’annotation iconographique (*timel*)
 ## Projet O.D.I.L. — Hackathon du Master Humanités numériques (École nationale des chartes)
 
+<img src="logo/odil-logo.png" alt="O.D.I.L." height="80"/>
 <p align="center">
   <img src="logo/chartes.png" alt="École nationale des chartes" height="80"/>
   <img src="logo/ehess.jpeg" alt="EHESS" height="80"/>
