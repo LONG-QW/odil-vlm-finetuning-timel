@@ -2,10 +2,9 @@
 ## Projet O.D.I.L. — Hackathon du Master Humanités numériques (École nationale des chartes)
 
 <p align="center">
-  <img src="logo/odil-logo.png" alt="O.D.I.L." height="80"/>
   <img src="logo/chartes.png" alt="École nationale des chartes" height="80"/>
-  <img src="logo/biblissima.png" alt="Biblissima+" height="80"/>
   <img src="logo/ehess.jpeg" alt="EHESS" height="80"/>
+  <img src="logo/biblissima.png" alt="Biblissima+" height="80"/>
   <img src="logo/epfl.jpeg" alt="EPFL" height="80"/>
 </p>
 
