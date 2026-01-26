@@ -28,7 +28,7 @@ Cette phase exploratoire avait pour objectif d’identifier les limites pratique
 
 ### 2.2 Piste A — Expérimentations VLM en configuration zero-shot
 
-Des expériences ont été menées avec des Vision-Language Models généralistes (Qwen 3.0, versions 2.0B et 4.0B), utilisés **sans entraînement préalable** sur la taxonomie *timel*.
+Des expériences ont été menées avec des Vision-Language Models généralistes (Qwen3-VL versions 2.0B et 4.0B), utilisés **sans entraînement préalable** sur la taxonomie *timel*.
 
 Deux formulations de prompt ont été testées :
 - demande explicite de génération d’identifiants de classes *timel* ;
