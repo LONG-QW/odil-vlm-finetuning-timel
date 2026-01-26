@@ -14,7 +14,7 @@
 <table>
 <tr>
 <td width="180" align="center" valign="top">
-  <img src="assets/partners/odil-logo.png" alt="O.D.I.L." height="90"/>
+  <img src="logo/odil-logo.png" alt="O.D.I.L." height="90"/>
 </td>
 <td>
 
