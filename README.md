@@ -1,11 +1,14 @@
 # Fine-tuning d’un Vision-Language Model pour l’annotation iconographique (*timel*)
 ## Projet O.D.I.L. — Hackathon du Master Humanités numériques (École nationale des chartes)
 
-> Ajouter les logos dans `assets/logos/` puis insérer ici :
-> - Logo de l’École : `![ENC](assets/logos/enc.png)`
-> - Logos des porteurs de projet : `![...](assets/logos/xxx.png)`
+<p align="center">
+  <img src="logo/odil-logo.png" alt="O.D.I.L." height="80"/>
+  <img src="logo/chartes.png" alt="École nationale des chartes" height="80"/>
+  <img src="logo/biblissima.png" alt="Biblissima+" height="80"/>
+  <img src="logo/ehess.jpeg" alt="EHESS" height="80"/>
+  <img src="logo/epfl.jpeg" alt="EPFL" height="80"/>
+</p>
 
----
 
 ## 1. Présentation du projet
 
