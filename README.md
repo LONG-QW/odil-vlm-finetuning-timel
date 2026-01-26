@@ -1,5 +1,9 @@
 # Fine-tuning d’un Vision-Language Model pour l’annotation iconographique (*timel*)
-## Projet O.D.I.L.
+## Projet O.D.I.L. — Hackathon du Master Humanités numériques (École nationale des chartes)
+
+> Ajouter les logos dans `assets/logos/` puis insérer ici :
+> - Logo de l’École : `![ENC](assets/logos/enc.png)`
+> - Logos des porteurs de projet : `![...](assets/logos/xxx.png)`
 
 ---
 
@@ -7,7 +11,7 @@
 
 Ce dépôt documente les expérimentations menées dans le cadre du projet **O.D.I.L.**, dont l’objectif est l’annotation iconographique automatique d’images patrimoniales, en particulier de manuscrits médiévaux.
 
-Le projet vise à associer des images à une **taxonomie iconographique contrôlée (*timel*)**, en respectant les contraintes de cohérence, de reproductibilité et d’exploitabilité requises dans un contexte patrimonial.
+Le projet vise à associer des images à une **taxonomie iconographique contrôlée (*timel*)**, en respectant des contraintes de cohérence, de reproductibilité et d’exploitabilité requises dans un contexte patrimonial.
 
 ---
 
@@ -42,19 +46,19 @@ Les observations principales sont les suivantes :
 Une tentative intermédiaire a consisté à générer une description de l’image, puis à apparier a posteriori les mots produits avec le fichier `classe.tsv`.  
 Cette approche, fondée sur une correspondance lexicale, ne garantit ni cohérence ni reproductibilité, et ne répond pas aux exigences d’une annotation fondée sur une taxonomie fermée.
 
+Modèles également observés à titre de comparaison :
+- `davanstrien/iconclass-vlm` : sorties structurées (Iconclass) mais non transférables directement à *timel* sans nouvel entraînement.
+
 ---
 
-### 2.3 Piste B — Autre approche explorée (à compléter)
+### 2.3 Piste B — Approche CLIP (à compléter / résumé minimal)
 
-Cette section est dédiée à une **autre piste méthodologique explorée au sein de l’équipe**, développée en parallèle des expérimentations VLM.
+Cette section est dédiée à une piste explorée en parallèle reposant sur des modèles visuels de type **CLIP**, utilisés pour produire des scores (ou probabilités) sur l’espace des catégories.
 
 **À compléter par le ou les contributeurs concernés :**
-- description de l’approche testée ;
-- hypothèses de départ ;
-- principaux résultats observés ;
-- limites identifiées.
-
-Cette piste a contribué à la réflexion collective sur les choix méthodologiques du projet.
+- description de l’approche testée (scores, top-k, etc.) ;
+- format des sorties produites (CSV, tableau de probabilités, etc.) ;
+- principaux résultats observés et limites identifiées.
 
 ---
 
@@ -90,6 +94,14 @@ Les labels sont considérés comme des **chaînes de caractères fixes**, et non
 - déduplication des images ;
 - séparation train / validation avec graine fixe.
 
+### 4.3 Préparation des prompts (analyse exploratoire)
+
+Avant la phase de fine-tuning, une étape exploratoire a été testée pour structurer les exigences de description et/ou guider la conception des prompts, via des regroupements visuels (ex. **clustering VGG16**).
+
+Objectifs :
+- regrouper des images par similarité visuelle pour faciliter l’analyse iconographique ;
+- définir des exigences de sortie (structure, éléments saillants, cas transcatégoriels).
+
 ---
 
 ## 5. Structure des données et format d’entraînement
@@ -100,11 +112,16 @@ Chaque échantillon est formulé comme une interaction multimodale :
 - **Entrée (user)** : image + instruction explicite ;
 - **Sortie (assistant)** : liste de labels *timel* uniquement, sans texte descriptif.
 
+Format de sortie attendu (exemple) :
+- IDs séparés par `;`
+- aucun texte libre
+- aucun label hors vocabulaire
+
 ---
 
 ## 6. Pipeline d’entraînement supervisé (SFT)
 
-- Modèle : **Qwen 3.0 Vision-Language Model**
+- Modèle : **Qwen 3.0 Vision-Language Model** (évolution depuis une base Qwen 2.5 testée au départ)
 - Méthode : Supervised Fine-Tuning (SFT)
 - La loss est calculée uniquement sur la sortie *assistant* ;
 - entraînement piloté par `max_steps` ;
@@ -126,18 +143,10 @@ Cette étape garantit la conformité des résultats à la taxonomie cible.
 
 ---
 
-## 8. Organisation du dépôt
+## 8. Installation
 
-```text
-.
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── classe.tsv
-├── scripts/
-│   ├── prepare_data.py
-│   ├── train_sft.py
-│   └── inference.py
-├── configs/
-├── README.md
-└── requirements.txt
+### 8.1 Dépendances
+
+Installer les dépendances :
+```bash
+pip install -r requirements.txt
