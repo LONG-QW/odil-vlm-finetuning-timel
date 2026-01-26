@@ -11,11 +11,20 @@
 
 ## 1. Présentation du projet
 
+<table>
+<tr>
+<td width="180" align="center" valign="top">
+  <img src="assets/partners/odil-logo.png" alt="O.D.I.L." height="90"/>
+</td>
+<td>
+
 Ce dépôt documente les expérimentations menées dans le cadre du projet **O.D.I.L.**, dont l’objectif est l’annotation iconographique automatique d’images patrimoniales, en particulier de manuscrits médiévaux.
 
 Le projet vise à associer des images à une **taxonomie iconographique contrôlée (*timel*)**, en respectant des contraintes de cohérence, de reproductibilité et d’exploitabilité requises dans un contexte patrimonial.
 
-<img src="logo/odil-logo.png" alt="O.D.I.L." height="80"/>
+</td>
+</tr>
+</table>
 
 ---
 
