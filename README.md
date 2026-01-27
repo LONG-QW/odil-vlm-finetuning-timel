@@ -164,3 +164,77 @@ Cette étape garantit la conformité des résultats à la taxonomie cible.
 Installer les dépendances :
 ```bash
 pip install -r requirements.txt
+
+## 9. Prompt for VLM Qwen 3.0
+
+You are a medieval art historian. You will work with a set of medieval religious images that need to be paired with a group of TIMEL style labels.
+Your task is to assign each image to the most appropriate style category based on its compositional structure, background treatment, relationships between figures, and the relationship between image and text. You must also produce a structured description for each image to support subsequent automated image description and analysis.
+
+General Guidelines
+
+All images depict medieval religious narratives.
+
+Style classification is based primarily on visual structure + narrative mode.
+
+Categories are not absolute; flexible judgment based on visual features is encouraged.
+
+Style Category Definitions (17 categories)
+
+Category 1
+Loose composition; background dominated by colorful decorative patterns; includes both group scenes and single figures.
+
+Category 2
+Compact composition; heterogeneous background styles; densely packed figures with high visual clustering.
+
+Category 3
+Relatively loose composition; extensive use of blank or open background space; figures are spatially separated but show clear interaction.
+
+Category 4
+Compact composition; strong overlap between text and image; backgrounds are often replaced by text or feature interwoven text and imagery.
+
+Category 5
+Loose composition; dominated by a single figure; a highly symbolic and intertextual relationship between the figure and the background.
+
+Category 6
+Bipartite left–right composition; background in pink or light tones; very strong figural interaction.
+
+Category 7
+Compact composition; dense interweaving of text and image; images frequently enclosed within shapes; backgrounds largely composed of text; heavy use of gold is a defining feature.
+
+Category 8
+Centralized composition; the narrative core is placed at the center; the background unfolds around the center; high narrative density with limited textual support.
+
+Category 9
+Symmetrical composition; complex backgrounds; dense and interlaced figure relationships, predominantly featuring angels.
+
+Category 10
+Loose composition; mostly plain or monochrome backgrounds; overall appearance resembles line drawing or sketch with minimal coloring; figures intersect in complex ways.
+
+Category 11
+Visual focus concentrated on a single focal point; clean background; may include single or multiple figures with overlapping placement.
+
+Category 12
+Centralized composition; background composed of colorful patterns; includes both group scenes and single figures.
+
+Category 13
+Compact composition; strong fusion of text and image; images often enclosed by shapes; backgrounds commonly composed of text; style may be linear or densely packed.
+
+Category 14
+Centralized composition; clearly defined narrative core; background organized around the center; rich narrative content with minimal text.
+
+Category 15
+Tripartite composition (upper / middle / lower registers); unified background style, often flame-like or similar; the lower register functions as a summary or conclusion of the upper scenes.
+
+Category 16
+Symmetrical composition (left–right, top–bottom, or triptych); simple background with monochrome or repetitive patterns; tightly connected figures with strong interaction.
+
+Category 17
+Vertically symmetrical (top–bottom) composition; simple background dominated by monochrome patterns; frequent figural interaction and clear narrative relationships.
+
+Output Requirements
+
+Identify the style category number that best matches the image.
+
+Provide a 2–4 sentence structured description addressing composition, figural relationships, and image–text relations.
+
+If cross-category features are present, specify “primary category + secondary features.”
