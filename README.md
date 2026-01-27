@@ -164,7 +164,7 @@ Cette étape garantit la conformité des résultats à la taxonomie cible.
 Installer les dépendances :
 ```bash
 pip install -r requirements.txt
-
+``` 
 ## 9. Prompt for VLM Qwen 3.0
 
 You are a medieval art historian. You will work with a set of medieval religious images that need to be paired with a group of TIMEL style labels.
