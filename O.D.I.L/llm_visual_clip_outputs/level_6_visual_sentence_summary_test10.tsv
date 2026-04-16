@@ -1,0 +1,2 @@
+target_level	n_images	mean_clip_cosine_visual_sentence	median_clip_cosine_visual_sentence	mean_clip_cosine_raw_joined_labels	median_clip_cosine_raw_joined_labels	mean_clip_cosine_semantic_template	median_clip_cosine_semantic_template	mean_delta_visual_vs_raw	median_delta_visual_vs_raw	mean_delta_visual_vs_semantic	median_delta_visual_vs_semantic
+6	10	0.25707322	0.26422048	0.22229123	0.22442062	0.29070282	0.29407656	0.034781974	0.042650156	-0.033629604	-0.023382694

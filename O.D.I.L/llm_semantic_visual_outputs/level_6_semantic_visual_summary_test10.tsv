@@ -1,0 +1,2 @@
+target_level	n_images	mean_clip_cosine_semantic_visual	median_clip_cosine_semantic_visual	mean_clip_cosine_semantic_template	median_clip_cosine_semantic_template	mean_clip_cosine_raw_joined_labels	median_clip_cosine_raw_joined_labels	mean_delta_semvis_vs_semantic	median_delta_semvis_vs_semantic	mean_delta_semvis_vs_raw	median_delta_semvis_vs_raw
+6	10	0.28565818	0.28628194	0.29111102	0.2968753	0.22229123	0.22442062	-0.0054528387	-0.004421279	0.06336693	0.05846554

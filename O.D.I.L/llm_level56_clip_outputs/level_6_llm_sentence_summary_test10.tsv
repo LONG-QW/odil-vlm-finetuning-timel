@@ -1,0 +1,2 @@
+target_level	n_images	mean_clip_cosine_llm_sentence	median_clip_cosine_llm_sentence	mean_clip_cosine_raw_joined_labels	median_clip_cosine_raw_joined_labels	mean_delta_vs_raw_joined	median_delta_vs_raw_joined
+6	30	0.28141358	0.2688712	0.22296579	0.21933202	0.05844781	0.047787428
