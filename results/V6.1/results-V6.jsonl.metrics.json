@@ -1,0 +1,126 @@
+{
+  "n_examples": 20,
+  "n_with_gold": 20,
+  "constrained_decoding": true,
+  "path_mode": true,
+  "micro_p": 0.19548872180451127,
+  "micro_r": 0.11063829787234042,
+  "micro_f1": 0.14130434782608695,
+  "macro_p": 0.0860759493670886,
+  "macro_r": 0.07436708860759494,
+  "macro_f1": 0.071697079292016,
+  "macro_classes": 158,
+  "exact_match_rate": 0.0,
+  "mean_pred_card": 6.65,
+  "mean_gold_card": 11.75,
+  "hallucination_rate": 0.05,
+  "empty_predictions": 0,
+  "total_valid_terms": 133,
+  "total_invalid_terms": 7,
+  "top20_predicted_labels": [
+    [
+      "don",
+      6,
+      0.3
+    ],
+    [
+      "Christ",
+      6,
+      0.3
+    ],
+    [
+      "nuée",
+      6,
+      0.3
+    ],
+    [
+      "couronne",
+      5,
+      0.25
+    ],
+    [
+      "arcade",
+      5,
+      0.25
+    ],
+    [
+      "eau",
+      4,
+      0.2
+    ],
+    [
+      "phylactère",
+      3,
+      0.15
+    ],
+    [
+      "saint Martin partageant son manteau",
+      3,
+      0.15
+    ],
+    [
+      "ange",
+      3,
+      0.15
+    ],
+    [
+      "corde",
+      3,
+      0.15
+    ],
+    [
+      "scène de chasse",
+      3,
+      0.15
+    ],
+    [
+      "David",
+      2,
+      0.1
+    ],
+    [
+      "désert",
+      2,
+      0.1
+    ],
+    [
+      "croix",
+      2,
+      0.1
+    ],
+    [
+      "vêtement",
+      2,
+      0.1
+    ],
+    [
+      "scène de donation",
+      2,
+      0.1
+    ],
+    [
+      "géant",
+      2,
+      0.1
+    ],
+    [
+      "livre",
+      2,
+      0.1
+    ],
+    [
+      "disciple",
+      2,
+      0.1
+    ],
+    [
+      "tête",
+      2,
+      0.1
+    ]
+  ],
+  "n_with_taxo": 20,
+  "hierarchical_micro_p": 0.39712918660287083,
+  "hierarchical_micro_r": 0.30514705882352944,
+  "hierarchical_micro_f1": 0.34511434511434513
+}

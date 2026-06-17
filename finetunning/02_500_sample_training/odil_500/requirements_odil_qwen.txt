@@ -1,0 +1,8 @@
+torch==2.9.1
+transformers==4.57.3
+datasets==4.4.2
+trl==0.26.2
+accelerate==1.12.0
+Pillow==12.1.0
+safetensors==0.7.0
+tokenizers==0.22.2

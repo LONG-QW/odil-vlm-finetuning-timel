@@ -1,0 +1,138 @@
+{
+  "pred_jsonl": "results-V6.jsonl",
+  "classes_tsv": "classes.tsv",
+  "n_records": 20,
+  "n_with_gold": 20,
+  "micro_p": 0.4782608695652174,
+  "micro_r": 0.09361702127659574,
+  "micro_f1": 0.15658362989323843,
+  "macro_p": 0.08354430379746836,
+  "macro_r": 0.06402953586497892,
+  "macro_f1": 0.06662830840046029,
+  "macro_classes": 158,
+  "exact_match_rate": 0.05,
+  "mean_pred_card": 2.3,
+  "mean_gold_card": 11.75,
+  "hallucination_rate": 0.2923076923076923,
+  "empty_predictions": 0,
+  "total_valid_terms": 46,
+  "total_invalid_terms": 19,
+  "top20_predicted_labels": [
+    [
+      "siège (meuble)",
+      5,
+      0.25
+    ],
+    [
+      "architecture",
+      5,
+      0.25
+    ],
+    [
+      "bourse",
+      3,
+      0.15
+    ],
+    [
+      "nudité",
+      3,
+      0.15
+    ],
+    [
+      "livre",
+      2,
+      0.1
+    ],
+    [
+      "chien",
+      2,
+      0.1
+    ],
+    [
+      "prière",
+      2,
+      0.1
+    ],
+    [
+      "tissu",
+      1,
+      0.05
+    ],
+    [
+      "astronomie",
+      1,
+      0.05
+    ],
+    [
+      "croix",
+      1,
+      0.05
+    ],
+    [
+      "arbre",
+      1,
+      0.05
+    ],
+    [
+      "phylactère",
+      1,
+      0.05
+    ],
+    [
+      "corbeau",
+      1,
+      0.05
+    ],
+    [
+      "saint Matthieu",
+      1,
+      0.05
+    ],
+    [
+      "rencontre",
+      1,
+      0.05
+    ],
+    [
+      "Christ",
+      1,
+      0.05
+    ],
+    [
+      "miracle",
+      1,
+      0.05
+    ],
+    [
+      "mesurage",
+      1,
+      0.05
+    ],
+    [
+      "lance",
+      1,
+      0.05
+    ],
+    [
+      "musique",
+      1,
+      0.05
+    ]
+  ],
+  "taxonomy_json": "timel_taxonomy.json",
+  "n_with_taxo": 20,
+  "hierarchical_micro_p": 0.6544117647058824,
+  "hierarchical_micro_r": 0.1636029411764706,
+  "hierarchical_micro_f1": 0.26176470588235295,
+  "n_soft": 20,
+  "soft_p": 0.6041666666666667,
+  "soft_r": 0.2379411080620446,
+  "soft_f1": 0.310495831958565,
+  "ic_alpha": 1.0,
+  "ic_train_jsonl": "odil_dataset_10000/train_terms.jsonl",
+  "ic_train_N": 8676,
+  "ic_vocab_size": 2333,
+  "ic_soft_p": 0.571464229466962,
+  "ic_soft_r": 0.2086978347100344,
+  "ic_soft_f1": 0.27500198298822326
+}

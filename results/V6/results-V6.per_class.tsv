@@ -1,0 +1,170 @@
+label	tp	fp	fn	support	precision	recall	f1
+astronomie	1	0	0	1	1.0	1.0	1.0
+corbeau	1	0	0	1	1.0	1.0	1.0
+rencontre	1	0	0	1	1.0	1.0	1.0
+chien	2	0	0	2	1.0	1.0	1.0
+siège (meuble)	4	1	2	6	0.8	0.6666666666666666	0.7272727272727272
+tissu	1	0	1	2	1.0	0.5	0.6666666666666666
+phylactère	1	0	1	2	1.0	0.5	0.6666666666666666
+nudité	2	1	1	3	0.6666666666666666	0.6666666666666666	0.6666666666666666
+balance	1	0	1	2	1.0	0.5	0.6666666666666666
+bourse	1	2	0	1	0.3333333333333333	1.0	0.5
+architecture	2	3	1	3	0.4	0.6666666666666666	0.5
+lance	1	0	2	3	1.0	0.3333333333333333	0.5
+prière	1	1	1	2	0.5	0.5	0.5
+arbre	1	0	3	4	1.0	0.25	0.4
+livre	1	1	2	3	0.5	0.3333333333333333	0.4
+Christ	1	0	4	5	1.0	0.2	0.33333333333333337
+parchemin	0	0	1	1	0.0	0.0	0.0
+prophète	0	0	1	1	0.0	0.0	0.0
+vêtement	0	1	2	2	0.0	0.0	0.0
+désignation	0	0	3	3	0.0	0.0	0.0
+parole	0	0	2	2	0.0	0.0	0.0
+croix	0	1	0	0	0.0	0.0	0.0
+lune (sphère céleste)	0	0	2	2	0.0	0.0	0.0
+Terre	0	0	1	1	0.0	0.0	0.0
+soleil (sphère céleste)	0	0	2	2	0.0	0.0	0.0
+discussion	0	0	2	2	0.0	0.0	0.0
+saint Matthieu	0	1	1	1	0.0	0.0	0.0
+couronne	0	0	5	5	0.0	0.0	0.0
+agneau	0	0	1	1	0.0	0.0	0.0
+vision	0	0	3	3	0.0	0.0	0.0
+gloire	0	0	2	2	0.0	0.0	0.0
+bœuf	0	0	2	2	0.0	0.0	0.0
+roi	0	0	5	5	0.0	0.0	0.0
+Paradis	0	0	1	1	0.0	0.0	0.0
+élu	0	0	1	1	0.0	0.0	0.0
+vieillard de l'Apocalypse	0	0	1	1	0.0	0.0	0.0
+majesté	0	0	1	1	0.0	0.0	0.0
+évêque	0	0	2	2	0.0	0.0	0.0
+ange	0	0	5	5	0.0	0.0	0.0
+mitre	0	0	1	1	0.0	0.0	0.0
+assemblée	0	0	2	2	0.0	0.0	0.0
+aigle	0	0	2	2	0.0	0.0	0.0
+lion	0	0	2	2	0.0	0.0	0.0
+saint Jean	0	0	3	3	0.0	0.0	0.0
+comparution	0	0	2	2	0.0	0.0	0.0
+Christ et la femme adultère	0	0	1	1	0.0	0.0	0.0
+jugement	0	0	2	2	0.0	0.0	0.0
+Vierge	0	0	1	1	0.0	0.0	0.0
+cuve	0	0	1	1	0.0	0.0	0.0
+trompette	0	0	2	2	0.0	0.0	0.0
+juge	0	0	1	1	0.0	0.0	0.0
+clerc	0	0	1	1	0.0	0.0	0.0
+hybride	0	0	1	1	0.0	0.0	0.0
+musique	0	1	2	2	0.0	0.0	0.0
+épée	0	0	3	3	0.0	0.0	0.0
+pioche	0	0	1	1	0.0	0.0	0.0
+vièle	0	0	1	1	0.0	0.0	0.0
+mesurage	0	1	1	1	0.0	0.0	0.0
+miracle	0	1	0	0	0.0	0.0	0.0
+autel	0	0	1	1	0.0	0.0	0.0
+prédication	0	0	1	1	0.0	0.0	0.0
+saint Amand	0	0	1	1	0.0	0.0	0.0
+aveugle	0	0	1	1	0.0	0.0	0.0
+cécité	0	0	1	1	0.0	0.0	0.0
+idolâtrie	0	0	2	2	0.0	0.0	0.0
+crosse	0	0	1	1	0.0	0.0	0.0
+cheval	0	0	3	3	0.0	0.0	0.0
+chameau	0	0	2	2	0.0	0.0	0.0
+dévoration	0	0	2	2	0.0	0.0	0.0
+éléphant	0	0	1	1	0.0	0.0	0.0
+rivière	0	0	1	1	0.0	0.0	0.0
+chevauchée	0	0	2	2	0.0	0.0	0.0
+portement	0	0	1	1	0.0	0.0	0.0
+dragon de l'Apocalypse	0	0	1	1	0.0	0.0	0.0
+bouclier	0	0	2	2	0.0	0.0	0.0
+bête de l'Apocalypse	0	0	1	1	0.0	0.0	0.0
+martyre	0	0	1	1	0.0	0.0	0.0
+combat	0	0	1	1	0.0	0.0	0.0
+archange	0	0	2	2	0.0	0.0	0.0
+étoile	0	0	2	2	0.0	0.0	0.0
+meurtre	0	0	1	1	0.0	0.0	0.0
+nuit	0	0	1	1	0.0	0.0	0.0
+ciel	0	0	1	1	0.0	0.0	0.0
+saint Michel	0	0	2	2	0.0	0.0	0.0
+vielle	0	1	0	0	0.0	0.0	0.0
+roi des Ammonites humiliant les envoyés de David	0	0	1	1	0.0	0.0	0.0
+serviteur	0	0	1	1	0.0	0.0	0.0
+sceptre	0	0	1	1	0.0	0.0	0.0
+coupe (découpe)	0	0	1	1	0.0	0.0	0.0
+couteau	0	0	1	1	0.0	0.0	0.0
+rasage	0	0	1	1	0.0	0.0	0.0
+ordre	0	0	1	1	0.0	0.0	0.0
+tapis	0	1	0	0	0.0	0.0	0.0
+feu-langue	0	0	1	1	0.0	0.0	0.0
+fourrure	0	0	2	2	0.0	0.0	0.0
+Pentecôte	0	0	1	1	0.0	0.0	0.0
+calice	0	0	1	1	0.0	0.0	0.0
+inspiration divine	0	0	1	1	0.0	0.0	0.0
+armure	0	0	1	1	0.0	0.0	0.0
+table	0	0	1	1	0.0	0.0	0.0
+menace	0	0	1	1	0.0	0.0	0.0
+or	0	1	0	0	0.0	0.0	0.0
+Diable	0	0	1	1	0.0	0.0	0.0
+sac	0	0	1	1	0.0	0.0	0.0
+silence	0	0	1	1	0.0	0.0	0.0
+coffre	0	0	1	1	0.0	0.0	0.0
+David	0	0	1	1	0.0	0.0	0.0
+encensoir	0	0	2	2	0.0	0.0	0.0
+marchand	0	0	1	1	0.0	0.0	0.0
+nuée	0	0	2	2	0.0	0.0	0.0
+monnaie	0	0	1	1	0.0	0.0	0.0
+Dieu	0	0	1	1	0.0	0.0	0.0
+sang	0	0	1	1	0.0	0.0	0.0
+Soleil (personnifications et allégories)	0	0	1	1	0.0	0.0	0.0
+roue	0	0	1	1	0.0	0.0	0.0
+chérubin	0	0	1	1	0.0	0.0	0.0
+chute	0	0	2	2	0.0	0.0	0.0
+chute des anges	0	0	1	1	0.0	0.0	0.0
+feu	0	0	2	2	0.0	0.0	0.0
+Lune (personnifications et allégories)	0	0	1	1	0.0	0.0	0.0
+séraphin	0	0	1	1	0.0	0.0	0.0
+saint Luc	0	0	1	1	0.0	0.0	0.0
+plaie	0	0	1	1	0.0	0.0	0.0
+saint Marc	0	0	1	1	0.0	0.0	0.0
+encensement	0	0	1	1	0.0	0.0	0.0
+bénédiction	0	0	1	1	0.0	0.0	0.0
+apparition	0	0	2	2	0.0	0.0	0.0
+char	0	0	1	1	0.0	0.0	0.0
+châtiment	0	1	0	0	0.0	0.0	0.0
+saint Paul	0	0	1	1	0.0	0.0	0.0
+guide	0	0	1	1	0.0	0.0	0.0
+damné	0	0	1	1	0.0	0.0	0.0
+saisie	0	0	1	1	0.0	0.0	0.0
+porte	0	0	1	1	0.0	0.0	0.0
+torture	0	0	1	1	0.0	0.0	0.0
+lys	0	0	1	1	0.0	0.0	0.0
+pendaison	0	0	1	1	0.0	0.0	0.0
+tour	0	0	1	1	0.0	0.0	0.0
+truelle	0	1	0	0	0.0	0.0	0.0
+moine	0	1	0	0	0.0	0.0	0.0
+médecine	0	0	1	1	0.0	0.0	0.0
+médecin	0	0	1	1	0.0	0.0	0.0
+malade	0	0	1	1	0.0	0.0	0.0
+scène de médecine	0	0	1	1	0.0	0.0	0.0
+scène d'astronomie	0	0	1	1	0.0	0.0	0.0
+anatomie	0	0	1	1	0.0	0.0	0.0
+armoiries	0	1	0	0	0.0	0.0	0.0
+casque	0	1	0	0	0.0	0.0	0.0
+bannière	0	0	1	1	0.0	0.0	0.0
+cavalier	0	0	1	1	0.0	0.0	0.0
+âne	0	0	1	1	0.0	0.0	0.0
+oiseau	0	0	1	1	0.0	0.0	0.0
+chasse	0	0	1	1	0.0	0.0	0.0
+plante	0	0	1	1	0.0	0.0	0.0
+lièvre	0	0	1	1	0.0	0.0	0.0
+fauve	0	0	1	1	0.0	0.0	0.0
+rapace	0	0	1	1	0.0	0.0	0.0
+soldat	0	0	2	2	0.0	0.0	0.0
+collier	0	1	0	0	0.0	0.0	0.0
+pavement	0	0	1	1	0.0	0.0	0.0
+bourreau	0	0	1	1	0.0	0.0	0.0
+colonne	0	0	1	1	0.0	0.0	0.0
+idole	0	0	1	1	0.0	0.0	0.0
+décapitation	0	0	1	1	0.0	0.0	0.0
+destruction	0	0	1	1	0.0	0.0	0.0
+mort (thème)	0	0	1	1	0.0	0.0	0.0
+saint Félix	0	0	1	1	0.0	0.0	0.0
+fortification	0	0	1	1	0.0	0.0	0.0
+refus	0	0	1	1	0.0	0.0	0.0

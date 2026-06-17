@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<title>TIMEL — rapport de prédiction</title>
+<style>
+* { box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    margin: 0; padding: 24px;
+    background: #f5f6f8; color: #1c1e21;
+}
+h1 { margin: 0 0 8px 0; font-size: 22px; }
+h2 { margin: 0 0 4px 0; font-size: 14px; color: #5a6072; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.meta { color: #6a7080; font-size: 13px; margin-bottom: 24px; }
+
+.metrics-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px; margin-bottom: 28px;
+}
+.metric-card {
+    background: white; padding: 14px 16px; border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.metric-card .label {
+    font-size: 11px; text-transform: uppercase; color: #6a7080;
+    letter-spacing: 0.05em; font-weight: 600;
+}
+.metric-card .value {
+    font-size: 22px; font-weight: 700; color: #1c1e21; margin-top: 4px;
+}
+.metric-card.hier .value { color: #2a6df4; }
+.metric-card.soft .value { color: #16a05a; }
+.metric-card.warn .value { color: #d4413f; }
+
+.toolbar {
+    background: white; padding: 12px 16px; border-radius: 10px;
+    margin-bottom: 16px; display: flex; gap: 12px; flex-wrap: wrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); align-items: center;
+}
+.toolbar input, .toolbar select {
+    padding: 6px 10px; border: 1px solid #d0d4dc; border-radius: 6px; font-size: 13px;
+}
+.toolbar label { font-size: 13px; color: #5a6072; }
+
+.example {
+    background: white; border-radius: 10px; padding: 16px;
+    margin-bottom: 14px; display: grid;
+    grid-template-columns: minmax(220px, 1fr) 2fr;
+    gap: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.example.empty-pred { border-left: 4px solid #d4413f; }
+.example.partial    { border-left: 4px solid #f0a830; }
+.example.good       { border-left: 4px solid #16a05a; }
+.example.exact      { border-left: 4px solid #2a6df4; }
+
+.example .img-wrap img {
+    width: 100%; max-width: 420px; height: auto; border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.example .img-wrap .no-image {
+    background: #eef0f3; padding: 40px 20px; text-align: center;
+    color: #97a; border-radius: 6px; font-size: 12px;
+}
+.idx { font-size: 12px; color: #6a7080; margin-bottom: 6px; }
+.section-title {
+    font-size: 11px; text-transform: uppercase; color: #5a6072;
+    font-weight: 700; letter-spacing: 0.05em; margin: 10px 0 6px;
+}
+.chip {
+    display: inline-block; padding: 3px 10px; margin: 2px 4px 2px 0;
+    border-radius: 14px; font-size: 12px; line-height: 18px;
+    font-family: -apple-system, "Helvetica Neue", sans-serif;
+}
+.chip.tp     { background: #d6f5e0; color: #0c5e2c; }
+.chip.fn     { background: #fde5e3; color: #952420; }
+.chip.fp     { background: #fff1d6; color: #8c5800; }
+.chip.invalid{ background: #ececec; color: #555;  font-style: italic; }
+.chip.gold   { background: #d6e6fb; color: #1b4a99; }
+
+details summary {
+    cursor: pointer; font-size: 12px; color: #4a5078; padding: 4px 0;
+}
+.raw {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 12px; background: #f6f7fa; padding: 8px 10px;
+    border-radius: 6px; white-space: pre-wrap; word-break: break-word;
+    color: #2a2f3a; margin-top: 4px;
+}
+.example-meta {
+    font-size: 12px; color: #6a7080; margin-top: 8px;
+    display: flex; gap: 16px; flex-wrap: wrap;
+}
+.example-meta b { color: #1c1e21; }
+
+@media (max-width: 760px) {
+    .example { grid-template-columns: 1fr; }
+}
+</style>
+</head><body>
+<h1>Rapport de prédiction TIMEL</h1><div class="meta">Fichier : <b>results/V6.1/results-V6.jsonl</b> · 20 exemples · path_mode=True, constrained=True</div><div class="metrics-grid"><div class="metric-card "><div class="label">Examples</div><div class="value">20</div></div><div class="metric-card "><div class="label">Cardinalité prédite (moy)</div><div class="value">6.65</div></div><div class="metric-card "><div class="label">Cardinalité gold (moy)</div><div class="value">11.75</div></div><div class="metric-card "><div class="label">Exact-match</div><div class="value">0.0%</div></div><div class="metric-card warn"><div class="label">Hallucination</div><div class="value">5.0%</div></div><div class="metric-card "><div class="label">Micro F1</div><div class="value">0.1413</div></div><div class="metric-card "><div class="label">Macro F1</div><div class="value">0.0717</div></div><div class="metric-card hier"><div class="label">Hierarchical F1</div><div class="value">0.3451</div></div><div class="metric-card hier"><div class="label">Hierarchical P</div><div class="value">0.3971</div></div><div class="metric-card hier"><div class="label">Hierarchical R</div><div class="value">0.3051</div></div><div class="metric-card "><div class="label">Empty preds</div><div class="value">0</div></div><div class="metric-card "><div class="label">Valid / Invalid</div><div class="value">133 / 7</div></div></div><h2 style="margin-top:18px">Top labels prédits (détection mode collapse)</h2><div><span class="chip gold" title="freq=6/20">don&nbsp;·&nbsp;6</span><span class="chip gold" title="freq=6/20">Christ&nbsp;·&nbsp;6</span><span class="chip gold" title="freq=6/20">nuée&nbsp;·&nbsp;6</span><span class="chip gold" title="freq=5/20">couronne&nbsp;·&nbsp;5</span><span class="chip gold" title="freq=5/20">arcade&nbsp;·&nbsp;5</span><span class="chip gold" title="freq=4/20">eau&nbsp;·&nbsp;4</span><span class="chip gold" title="freq=3/20">phylactère&nbsp;·&nbsp;3</span><span class="chip gold" title="freq=3/20">saint Martin partageant son manteau&nbsp;·&nbsp;3</span><span class="chip gold" title="freq=3/20">ange&nbsp;·&nbsp;3</span><span class="chip gold" title="freq=3/20">corde&nbsp;·&nbsp;3</span><span class="chip gold" title="freq=3/20">scène de chasse&nbsp;·&nbsp;3</span><span class="chip gold" title="freq=2/20">David&nbsp;·&nbsp;2</span><span class="chip gold" title="freq=2/20">désert&nbsp;·&nbsp;2</span><span class="chip gold" title="freq=2/20">croix&nbsp;·&nbsp;2</span><span class="chip gold" title="freq=2/20">vêtement&nbsp;·&nbsp;2</span></div><div class="toolbar"><label>Tri :</label><select onchange="sortExamples(this.value)"><option value="index">index</option><option value="f1-asc">F1 croissant</option><option value="f1-desc">F1 décroissant</option><option value="gold-desc">cardinalité gold décroissante</option></select></div><div id="examples">
+<div class="example empty-pred" data-pred="6" data-gold="7" data-f1="0.000">
+  <div class="img-wrap">
+    <div class="idx">#0 — 015347.jpg</div>
+    <div class="no-image">image non trouvée<br><small>015347.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.000</span>
+      <span><b>P</b> 0.000</span>
+      <span><b>R</b> 0.000</span>
+      <span>TP 0 · FP 6 · FN 7</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip fp">David</span><span class="chip fp">armoiries</span><span class="chip fp">don</span><span class="chip fp">désert</span><span class="chip fp">mitre</span><span class="chip fp">psaume 39 : David se condamnant au silence</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip fn">bourse</span><span class="chip fn">désignation</span><span class="chip fn">parchemin</span><span class="chip fn">parole</span><span class="chip fn">prophète</span><span class="chip fn">tissu</span><span class="chip fn">vêtement</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages de l&#x27;Ancien Testament / David ; objet architecture / insignes / armoiries ; objet architecture!thème / dons, échanges et mesures / don ; objet architecture!nature lieu / éléments du paysage / désert ; objet architecture!objet architecture / objets liturgiques et funéraires / mitre ; objet architecture!personnage / personnifications et allégories / Église (personnifications et allég!sujet / Bible / Ancien Testament / les Rois / David (sujets) / psaume 39 : David se condamnant au silence</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="6" data-gold="4" data-f1="0.200">
+  <div class="img-wrap">
+    <div class="idx">#1 — 014348.jpg</div>
+    <div class="no-image">image non trouvée<br><small>014348.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.200</span>
+      <span><b>P</b> 0.167</span>
+      <span><b>R</b> 0.250</span>
+      <span>TP 1 · FP 5 · FN 3</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">Terre</span><span class="chip fp">compas</span><span class="chip fp">croix</span><span class="chip fp">portement</span><span class="chip fp">scène d&#x27;astronomie</span><span class="chip fp">échelle</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">Terre</span><span class="chip fn">astronomie</span><span class="chip fn">lune (sphère céleste)</span><span class="chip fn">soleil (sphère céleste)</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">objet architecture / objets liturgiques et funéraires / croix ; objet architecture / instruments de mesure / compas ; objet architecture!objet architecture / outils et instruments divers / échelle ; objet architecture!thème / relations entre personnage et objet / portement ; objet architecture!nature lieu / cosmos / sphères célestes / Terre ; objet architecture!sujet / arts et savoirs / scène d&#x27;astronomie</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="6" data-gold="3" data-f1="0.222">
+  <div class="img-wrap">
+    <div class="idx">#2 — 008927.jpg</div>
+    <div class="no-image">image non trouvée<br><small>008927.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.222</span>
+      <span><b>P</b> 0.167</span>
+      <span><b>R</b> 0.333</span>
+      <span>TP 1 · FP 5 · FN 2</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">phylactère</span><span class="chip fp">rencontre</span><span class="chip fp">rocher</span><span class="chip fp">sac</span><span class="chip fp">scène de donation</span><span class="chip fp">vêtement</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">phylactère</span><span class="chip fn">arbre</span><span class="chip fn">discussion</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">objet architecture / écrits / phylactère ; objet architecture / tissus, parures et accessoires / vêtement ; objet architecture!thème / relations entre personnages / rencontre ; objet architecture!nature lieu / éléments du paysage / rocher ; objet architecture!objet architecture / récipients et contenants / sac ; objet architecture!personnage / personnifications et allégories / Église (personnifications et allég!sujet / pouvoir, justice, conflit / pouvoir (sujets) / scène de donation</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="5" data-gold="1" data-f1="0.333">
+  <div class="img-wrap">
+    <div class="idx">#3 — 007393.jpg</div>
+    <div class="no-image">image non trouvée<br><small>007393.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.333</span>
+      <span><b>P</b> 0.200</span>
+      <span><b>R</b> 1.000</span>
+      <span>TP 1 · FP 4 · FN 0</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">corbeau</span><span class="chip fp">flûte</span><span class="chip fp">géant</span><span class="chip fp">musique</span><span class="chip fp">plante</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">corbeau</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">nature lieu / animaux / oiseaux et volatiles / corbeau ; objet architecture / instruments de musique / instruments à vent / flûte ; objet architecture!thème / activités sociales et festives / musique ; objet architecture!nature lieu / végétaux / plantes et fleurs / plante ; objet architecture!personnage / personnages fantastiques et monstres / géant</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="22" data-f1="0.276">
+  <div class="img-wrap">
+    <div class="idx">#4 — 002304.jpg</div>
+    <div class="no-image">image non trouvée<br><small>002304.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.276</span>
+      <span><b>P</b> 0.571</span>
+      <span><b>R</b> 0.182</span>
+      <span>TP 4 · FP 3 · FN 18</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">Christ</span><span class="chip tp">couronne</span><span class="chip tp">phylactère</span><span class="chip tp">roi</span><span class="chip fp">don</span><span class="chip fp">nuée</span><span class="chip fp">personnage agenouillé</span><span class="chip invalid">objet architecture!</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">Christ</span><span class="chip tp">couronne</span><span class="chip tp">phylactère</span><span class="chip tp">roi</span><span class="chip fn">Paradis</span><span class="chip fn">agneau</span><span class="chip fn">aigle</span><span class="chip fn">ange</span><span class="chip fn">assemblée</span><span class="chip fn">bœuf</span><span class="chip fn">gloire</span><span class="chip fn">lion</span><span class="chip fn">livre</span><span class="chip fn">majesté</span><span class="chip fn">mitre</span><span class="chip fn">parole</span><span class="chip fn">saint Jean</span><span class="chip fn">siège (meuble)</span><span class="chip fn">vieillard de l&#x27;Apocalypse</span><span class="chip fn">vision</span><span class="chip fn">élu</span><span class="chip fn">évêque</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages divins ou surnaturels / Christ ; objet architecture / insignes / couronne ; objet architecture!thème / dons, échanges et mesures / don ; objet architecture!nature lieu / éléments naturels et intempéries / nuée ; objet architecture!objet architecture / écrits / phylactère ; objet architecture!personnage / catégories sociales et peuples / statuts civils / roi ; objet architecture!sujet / Bible / Nouveau Testament / Apocalypse / théophanies de l&#x27;Apocalypse / vieillards de l&#x27;Ap!sujet / personnages / personnages et posture / personnage agenouillé ; objet architecture!</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="4" data-f1="0.182">
+  <div class="img-wrap">
+    <div class="idx">#5 — 009803.jpg</div>
+    <div class="no-image">image non trouvée<br><small>009803.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.182</span>
+      <span><b>P</b> 0.143</span>
+      <span><b>R</b> 0.250</span>
+      <span>TP 1 · FP 6 · FN 3</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">Christ</span><span class="chip fp">Christ guérissant une hémorroïsse</span><span class="chip fp">disciple</span><span class="chip fp">livre</span><span class="chip fp">nuée</span><span class="chip fp">ordre</span><span class="chip fp">vêtement</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">Christ</span><span class="chip fn">Christ et la femme adultère</span><span class="chip fn">comparution</span><span class="chip fn">rencontre</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages divins ou surnaturels / Christ ; objet architecture / écrits / livre ; objet architecture!thème / pouvoir (thèmes) / ordre ; objet architecture!nature lieu / éléments naturels et intempéries / nuée ; objet architecture!objet architecture / tissus, parures et accessoires / vêtement ; objet architecture!personnage / catégories sociales et peuples / statuts civils / disciple ; objet architecture!sujet / Bible / Nouveau Testament / vie du Christ / vie publique / miracles / Christ guérissant une hémorroïsse</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="8" data-f1="0.133">
+  <div class="img-wrap">
+    <div class="idx">#6 — 001012.jpg</div>
+    <div class="no-image">image non trouvée<br><small>001012.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.133</span>
+      <span><b>P</b> 0.143</span>
+      <span><b>R</b> 0.125</span>
+      <span>TP 1 · FP 6 · FN 7</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">Christ</span><span class="chip fp">arcade</span><span class="chip fp">autel</span><span class="chip fp">saint Martin partageant son manteau</span><span class="chip fp">scène de musique</span><span class="chip fp">songe</span><span class="chip fp">tête</span><span class="chip invalid">objet architecture!</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">Christ</span><span class="chip fn">Vierge</span><span class="chip fn">ange</span><span class="chip fn">cuve</span><span class="chip fn">jugement</span><span class="chip fn">nudité</span><span class="chip fn">siège (meuble)</span><span class="chip fn">trompette</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages divins ou surnaturels / Christ ; objet architecture / éléments d&#x27;architecture / arcade ; objet architecture!sujet / arts et savoirs / scène de musique ; objet architecture!thème / vie corporelle / songe ; objet architecture!nature lieu / corps humain et animal / tête ; objet architecture!objet architecture / objets liturgiques et funéraires / autel ; objet architecture!personnage / personnifications et allégories / Église (personnifications et allég!sujet / scènes historiques, littéraires et mythologiques / légende dorée / saint Martin partageant son manteau ; objet architecture!</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="5" data-gold="12" data-f1="0.235">
+  <div class="img-wrap">
+    <div class="idx">#7 — 008410.jpg</div>
+    <div class="no-image">image non trouvée<br><small>008410.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.235</span>
+      <span><b>P</b> 0.400</span>
+      <span><b>R</b> 0.167</span>
+      <span>TP 2 · FP 3 · FN 10</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">comparution</span><span class="chip tp">couronne</span><span class="chip fp">Moïse présentant les tables de la loi aux Hébreux</span><span class="chip fp">livre</span><span class="chip fp">nuée</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">comparution</span><span class="chip tp">couronne</span><span class="chip fn">clerc</span><span class="chip fn">discussion</span><span class="chip fn">hybride</span><span class="chip fn">juge</span><span class="chip fn">musique</span><span class="chip fn">pioche</span><span class="chip fn">roi</span><span class="chip fn">siège (meuble)</span><span class="chip fn">vièle</span><span class="chip fn">épée</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">thème / pouvoir (thèmes) / comparution ; objet architecture / insignes / couronne ; objet architecture!objet architecture / écrits / livre ; objet architecture!nature lieu / éléments naturels et intempéries / nuée ; objet architecture!thème / parole (thèmes)!sujet / scènes liturgiques, rituelles et vie religieuse / scènes!sujet / Bible / Ancien Testament / Exode / Moïse (sujets) / Moïse présentant les tables de la loi aux Hébreux</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="9" data-f1="0.125">
+  <div class="img-wrap">
+    <div class="idx">#8 — 012998.jpg</div>
+    <div class="no-image">image non trouvée<br><small>012998.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.125</span>
+      <span><b>P</b> 0.143</span>
+      <span><b>R</b> 0.111</span>
+      <span>TP 1 · FP 6 · FN 8</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">autel</span><span class="chip fp">ange</span><span class="chip fp">arcade</span><span class="chip fp">bâton</span><span class="chip fp">nuée</span><span class="chip fp">parole</span><span class="chip fp">vendange divine</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">autel</span><span class="chip fn">arbre</span><span class="chip fn">aveugle</span><span class="chip fn">crosse</span><span class="chip fn">cécité</span><span class="chip fn">idolâtrie</span><span class="chip fn">prédication</span><span class="chip fn">saint Amand</span><span class="chip fn">évêque</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">objet architecture / éléments d&#x27;architecture / arcade ; objet architecture / objets liturgiques et funéraires / autel ; objet architecture!objet architecture / outils et instruments divers / bâton ; objet architecture!nature lieu / éléments naturels et intempéries / nuée ; objet architecture!thème / parole (thèmes) / parole ; objet architecture!personnage / personnages divins ou surnaturels / anges / ange ; objet architecture!sujet / Bible / Nouveau Testament / Apocalypse / vision de l&#x27;agneau, moisson et vendange divines / vendange divine</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="8" data-f1="0.133">
+  <div class="img-wrap">
+    <div class="idx">#9 — 004139.jpg</div>
+    <div class="no-image">image non trouvée<br><small>004139.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.133</span>
+      <span><b>P</b> 0.143</span>
+      <span><b>R</b> 0.125</span>
+      <span>TP 1 · FP 6 · FN 7</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">chevauchée</span><span class="chip fp">ange</span><span class="chip fp">corde</span><span class="chip fp">destruction de Sodome</span><span class="chip fp">mer</span><span class="chip fp">saisie</span><span class="chip fp">selle</span><span class="chip invalid">objet architecture!</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">chevauchée</span><span class="chip fn">chameau</span><span class="chip fn">cheval</span><span class="chip fn">chien</span><span class="chip fn">dévoration</span><span class="chip fn">portement</span><span class="chip fn">rivière</span><span class="chip fn">éléphant</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">thème / déplacements / chevauchée ; objet architecture / outils et instruments divers / corde ; objet architecture!nature lieu / éléments du paysage / mer ; objet architecture!objet architecture / objets liés à l&#x27;animal / selle ; objet architecture!sujet / scènes liturgiques, rituelles et vie religieuse / scènes!sujet / Bible / Ancien Testament / Genèse / Lot (sujets) / destruction de Sodome ; objet architecture!personnage / personnages divins ou surnaturels / anges / ange ; objet architecture!thème / vertus et vices (thèmes) / vices (th!thème / conflit (thèmes)!sujet / homme, animal, nature / nature / zodiaque (sujets!sujet / agriculture, artisanat et commerce, vie quotidienne, calendrier / calendrier (sujets!thème / relations entre personnage et objet / saisie ; objet architecture!</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="6" data-gold="14" data-f1="0.100">
+  <div class="img-wrap">
+    <div class="idx">#10 — 004434.jpg</div>
+    <div class="no-image">image non trouvée<br><small>004434.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.100</span>
+      <span><b>P</b> 0.167</span>
+      <span><b>R</b> 0.071</span>
+      <span>TP 1 · FP 5 · FN 13</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">bouclier</span><span class="chip fp">Diable</span><span class="chip fp">bâton</span><span class="chip fp">don</span><span class="chip fp">dragon de l&#x27;Apocalypse enchaîné</span><span class="chip fp">eau</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">bouclier</span><span class="chip fn">archange</span><span class="chip fn">bête de l&#x27;Apocalypse</span><span class="chip fn">ciel</span><span class="chip fn">combat</span><span class="chip fn">couronne</span><span class="chip fn">dragon de l&#x27;Apocalypse</span><span class="chip fn">lance</span><span class="chip fn">martyre</span><span class="chip fn">meurtre</span><span class="chip fn">nuit</span><span class="chip fn">saint Michel</span><span class="chip fn">épée</span><span class="chip fn">étoile</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages divins ou surnaturels / Diable ; objet architecture / armes / bouclier ; objet architecture!objet architecture / outils et instruments divers / bâton ; objet architecture!thème / dons, échanges et mesures / don ; objet architecture!nature lieu / éléments naturels et intempéries / eau ; objet architecture!personnage / personnifications et allégories / Mort (personnifications et allég!sujet / Bible / Nouveau Testament / Apocalypse / triomphe du Christ / dragon de l&#x27;Apocalypse enchaîné</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example empty-pred" data-pred="6" data-gold="12" data-f1="0.000">
+  <div class="img-wrap">
+    <div class="idx">#11 — 002846.jpg</div>
+    <div class="no-image">image non trouvée<br><small>002846.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.000</span>
+      <span><b>P</b> 0.000</span>
+      <span><b>R</b> 0.000</span>
+      <span>TP 0 · FP 6 · FN 12</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip fp">David</span><span class="chip fp">arcade</span><span class="chip fp">don</span><span class="chip fp">eau</span><span class="chip fp">fil à plomb</span><span class="chip fp">psaume 53 : fou devant David</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip fn">coupe (découpe)</span><span class="chip fn">couronne</span><span class="chip fn">couteau</span><span class="chip fn">nudité</span><span class="chip fn">ordre</span><span class="chip fn">rasage</span><span class="chip fn">roi</span><span class="chip fn">roi des Ammonites humiliant les envoyés de David</span><span class="chip fn">sceptre</span><span class="chip fn">serviteur</span><span class="chip fn">siège (meuble)</span><span class="chip fn">vêtement</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages de l&#x27;Ancien Testament / David ; objet architecture / éléments d&#x27;architecture / arcade ; objet architecture!thème / dons, échanges et mesures / don ; objet architecture!nature lieu / éléments naturels et intempéries / eau ; objet architecture!objet architecture / instruments de mesure / fil à plomb ; objet architecture!personnage / personnifications et allégories / Église (personnifications et allég!sujet / Bible / Ancien Testament / les Rois / David (sujets) / psaume 53 : fou devant David</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="8" data-gold="15" data-f1="0.087">
+  <div class="img-wrap">
+    <div class="idx">#12 — 010575.jpg</div>
+    <div class="no-image">image non trouvée<br><small>010575.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.087</span>
+      <span><b>P</b> 0.125</span>
+      <span><b>R</b> 0.067</span>
+      <span>TP 1 · FP 7 · FN 14</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">couronne</span><span class="chip fp">Pharaon</span><span class="chip fp">don</span><span class="chip fp">nuée</span><span class="chip fp">plaie d&#x27;Égypte : mort des premiers-nés</span><span class="chip fp">rideau</span><span class="chip fp">saint Martin partageant son manteau</span><span class="chip fp">soldat</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">couronne</span><span class="chip fn">Pentecôte</span><span class="chip fn">architecture</span><span class="chip fn">armure</span><span class="chip fn">assemblée</span><span class="chip fn">calice</span><span class="chip fn">feu-langue</span><span class="chip fn">fourrure</span><span class="chip fn">inspiration divine</span><span class="chip fn">menace</span><span class="chip fn">prière</span><span class="chip fn">roi</span><span class="chip fn">siège (meuble)</span><span class="chip fn">table</span><span class="chip fn">tissu</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages de l&#x27;Ancien Testament / Pharaon ; objet architecture / insignes / couronne ; objet architecture!thème / dons, échanges et mesures / don ; objet architecture!nature lieu / éléments naturels et intempéries / nuée ; objet architecture!objet architecture / tissus, parures et accessoires / rideau ; objet architecture!personnage / personnifications et allégories / Église (personnifications et allég!sujet / Bible / Ancien Testament / Exode / Moïse (sujets) / plaie d&#x27;Égypte : mort des premiers-nés ; objet architecture!sujet / scènes historiques, littéraires et mythologiques / légende dorée / saint Martin partageant son manteau ; objet!personnage / catégories sociales et peuples / statuts civils / soldat</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="8" data-gold="16" data-f1="0.083">
+  <div class="img-wrap">
+    <div class="idx">#13 — 004403.jpg</div>
+    <div class="no-image">image non trouvée<br><small>004403.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.083</span>
+      <span><b>P</b> 0.125</span>
+      <span><b>R</b> 0.062</span>
+      <span>TP 1 · FP 7 · FN 15</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">arbre</span><span class="chip fp">Christ</span><span class="chip fp">arcade</span><span class="chip fp">bannière</span><span class="chip fp">cavalier</span><span class="chip fp">commerce</span><span class="chip fp">eau</span><span class="chip fp">saint Martin partageant son manteau</span><span class="chip invalid">objet architecture!</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">arbre</span><span class="chip fn">David</span><span class="chip fn">Diable</span><span class="chip fn">Dieu</span><span class="chip fn">balance</span><span class="chip fn">chameau</span><span class="chip fn">cheval</span><span class="chip fn">coffre</span><span class="chip fn">encensoir</span><span class="chip fn">marchand</span><span class="chip fn">mesurage</span><span class="chip fn">monnaie</span><span class="chip fn">nuée</span><span class="chip fn">roi</span><span class="chip fn">sac</span><span class="chip fn">silence</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages divins ou surnaturels / Christ ; objet architecture / éléments d&#x27;architecture / arcade ; objet architecture!objet architecture / insignes / bannière ; objet architecture!thème / dons, échanges et mesures / commerce ; objet architecture!nature lieu / éléments naturels et intempéries / eau ; objet architecture!sujet / scènes historiques, littéraires et mythologiques / légende dorée / saint Martin partageant son manteau ; objet!nature lieu / végétaux / arbres / arbre ; objet architecture!personnage / catégories sociales et peuples / statuts civils / cavalier ; objet architecture!</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="38" data-f1="0.089">
+  <div class="img-wrap">
+    <div class="idx">#14 — 2.jpg</div>
+    <div class="no-image">image non trouvée<br><small>2.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.089</span>
+      <span><b>P</b> 0.286</span>
+      <span><b>R</b> 0.053</span>
+      <span>TP 2 · FP 5 · FN 36</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">Christ</span><span class="chip tp">siège (meuble)</span><span class="chip fp">Christ trônant</span><span class="chip fp">couronne</span><span class="chip fp">scène de donation</span><span class="chip fp">spectacle</span><span class="chip fp">ténèbre</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">Christ</span><span class="chip tp">siège (meuble)</span><span class="chip fn">Lune (personnifications et allégories)</span><span class="chip fn">Soleil (personnifications et allégories)</span><span class="chip fn">aigle</span><span class="chip fn">ange</span><span class="chip fn">apparition</span><span class="chip fn">archange</span><span class="chip fn">balance</span><span class="chip fn">bénédiction</span><span class="chip fn">bœuf</span><span class="chip fn">char</span><span class="chip fn">chute</span><span class="chip fn">chute des anges</span><span class="chip fn">chérubin</span><span class="chip fn">dévoration</span><span class="chip fn">encensement</span><span class="chip fn">encensoir</span><span class="chip fn">feu</span><span class="chip fn">gloire</span><span class="chip fn">jugement</span><span class="chip fn">lance</span><span class="chip fn">lion</span><span class="chip fn">livre</span><span class="chip fn">lune (sphère céleste)</span><span class="chip fn">musique</span><span class="chip fn">plaie</span><span class="chip fn">roue</span><span class="chip fn">saint Jean</span><span class="chip fn">saint Luc</span><span class="chip fn">saint Marc</span><span class="chip fn">saint Matthieu</span><span class="chip fn">saint Michel</span><span class="chip fn">sang</span><span class="chip fn">soleil (sphère céleste)</span><span class="chip fn">séraphin</span><span class="chip fn">trompette</span><span class="chip fn">étoile</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages divins ou surnaturels / Christ ; objet architecture / insignes / couronne ; objet architecture!sujet / scènes liturgiques, rituelles et vie religieuse / scènes!sujet / pouvoir, justice, conflit / pouvoir (sujets) / scène de donation ; objet architecture!thème / activités sociales et festives / spectacle ; objet architecture!nature lieu / éléments naturels et intempéries / ténèbre ; objet architecture!objet architecture / meubles / siège (meuble) ; objet architecture!personnage / personnifications et allégories / Église (personnifications et allég!sujet / Bible / Nouveau Testament / Apocalypse / triomphe du Christ / Christ trônant</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="15" data-f1="0.091">
+  <div class="img-wrap">
+    <div class="idx">#15 — 006231.jpg</div>
+    <div class="no-image">image non trouvée<br><small>006231.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.091</span>
+      <span><b>P</b> 0.143</span>
+      <span><b>R</b> 0.067</span>
+      <span>TP 1 · FP 6 · FN 14</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">ange</span><span class="chip fp">Enfer</span><span class="chip fp">châtiment</span><span class="chip fp">fortification</span><span class="chip fp">résurrection des morts</span><span class="chip fp">tête</span><span class="chip fp">vue</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">ange</span><span class="chip fn">arbre</span><span class="chip fn">chute</span><span class="chip fn">damné</span><span class="chip fn">désignation</span><span class="chip fn">feu</span><span class="chip fn">guide</span><span class="chip fn">lys</span><span class="chip fn">pendaison</span><span class="chip fn">porte</span><span class="chip fn">saint Paul</span><span class="chip fn">saisie</span><span class="chip fn">torture</span><span class="chip fn">tour</span><span class="chip fn">vision</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">thème / peines corporelles et chatiments / châtiment ; objet architecture / éléments d&#x27;architecture / fortification ; objet architecture!objet architecture / éléments!nature lieu / lieux / lieux symboliques / Enfer ; objet architecture!nature lieu / corps humain et animal / tête ; objet architecture!thème / vie corporelle / vue ; objet architecture!personnage / personnages divins ou surnaturels / anges / ange ; objet architecture!sujet / Bible / Nouveau Testament / Jugement dernier et jugement immédiat / Jugement dernier / résurrection des morts</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="6" data-gold="9" data-f1="0.400">
+  <div class="img-wrap">
+    <div class="idx">#16 — 001716.jpg</div>
+    <div class="no-image">image non trouvée<br><small>001716.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.400</span>
+      <span><b>P</b> 0.500</span>
+      <span><b>R</b> 0.333</span>
+      <span>TP 3 · FP 3 · FN 6</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">Christ</span><span class="chip tp">architecture</span><span class="chip tp">nuée</span><span class="chip fp">don</span><span class="chip fp">phylactère</span><span class="chip fp">saint Jean et les sept Églises</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">Christ</span><span class="chip tp">architecture</span><span class="chip tp">nuée</span><span class="chip fn">ange</span><span class="chip fn">apparition</span><span class="chip fn">désignation</span><span class="chip fn">livre</span><span class="chip fn">saint Jean</span><span class="chip fn">vision</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">personnage / personnages divins ou surnaturels / Christ ; objet architecture / éléments d&#x27;architecture / architecture ; objet architecture!thème / dons, échanges et mesures / don ; objet architecture!nature lieu / éléments naturels et intempéries / nuée ; objet architecture!objet architecture / écrits / phylactère ; objet architecture!personnage / personnifications et allégories / Église (personnifications et allég!sujet / Bible / Nouveau Testament / Apocalypse / messages aux sept Églises d&#x27;Asie / saint Jean et les sept Églises</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example empty-pred" data-pred="7" data-gold="7" data-f1="0.000">
+  <div class="img-wrap">
+    <div class="idx">#17 — 003333.jpg</div>
+    <div class="no-image">image non trouvée<br><small>003333.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.000</span>
+      <span><b>P</b> 0.000</span>
+      <span><b>R</b> 0.000</span>
+      <span>TP 0 · FP 7 · FN 7</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip fp">captivité</span><span class="chip fp">corde</span><span class="chip fp">couteau</span><span class="chip fp">disciple</span><span class="chip fp">désert</span><span class="chip fp">partage</span><span class="chip fp">scène de chasse</span><span class="chip invalid">objet architecture!</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip fn">anatomie</span><span class="chip fn">malade</span><span class="chip fn">médecin</span><span class="chip fn">médecine</span><span class="chip fn">nudité</span><span class="chip fn">scène d&#x27;astronomie</span><span class="chip fn">scène de médecine</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">thème / justice (thèmes) / captivité ; objet architecture / outils et instruments divers / corde ; objet architecture!objet architecture / objets domestiques / couteau ; objet architecture!nature lieu / éléments du paysage / désert ; objet architecture!thème / dons, échanges et mesures / partage ; objet architecture!personnage / catégories sociales et peuples / statuts civils / disciple ; objet architecture!sujet / arts et savoirs / scène de chasse ; objet architecture!</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="8" data-gold="14" data-f1="0.273">
+  <div class="img-wrap">
+    <div class="idx">#18 — 005417.jpg</div>
+    <div class="no-image">image non trouvée<br><small>005417.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.273</span>
+      <span><b>P</b> 0.375</span>
+      <span><b>R</b> 0.214</span>
+      <span>TP 3 · FP 5 · FN 11</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">bouclier</span><span class="chip tp">cavalier</span><span class="chip tp">chevauchée</span><span class="chip fp">caparaçon</span><span class="chip fp">ciel</span><span class="chip fp">couronne</span><span class="chip fp">faucon</span><span class="chip fp">scène de chasse</span><span class="chip invalid">objet architecture!</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">bouclier</span><span class="chip tp">cavalier</span><span class="chip tp">chevauchée</span><span class="chip fn">bannière</span><span class="chip fn">chasse</span><span class="chip fn">cheval</span><span class="chip fn">fauve</span><span class="chip fn">lance</span><span class="chip fn">lièvre</span><span class="chip fn">oiseau</span><span class="chip fn">plante</span><span class="chip fn">rapace</span><span class="chip fn">soldat</span><span class="chip fn">âne</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">objet architecture / armes / bouclier ; objet architecture / objets liés à l&#x27;animal / caparaçon ; objet architecture!objet architecture / insignes / couronne ; objet architecture!thème / déplacements / chevauchée ; objet architecture!nature lieu / éléments du paysage / ciel ; objet architecture!personnage / catégories sociales et peuples / statuts civils / cavalier ; objet!nature lieu / animaux / oiseaux et volatiles / faucon ; objet architecture!sujet / arts et savoirs / scène de chasse ; objet architecture!</div>
+    </details>
+  </div>
+</div>
+
+
+<div class="example partial" data-pred="7" data-gold="17" data-f1="0.083">
+  <div class="img-wrap">
+    <div class="idx">#19 — 006020.jpg</div>
+    <div class="no-image">image non trouvée<br><small>006020.jpg</small></div>
+    <div class="example-meta">
+      <span><b>F1</b> 0.083</span>
+      <span><b>P</b> 0.143</span>
+      <span><b>R</b> 0.059</span>
+      <span>TP 1 · FP 6 · FN 16</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-title">Prédictions (verte = TP, orange = FP, gris = invalide)</div>
+    <div><span class="chip tp">décapitation</span><span class="chip fp">arcade</span><span class="chip fp">corde</span><span class="chip fp">croix</span><span class="chip fp">eau</span><span class="chip fp">géant</span><span class="chip fp">scène de chasse</span><span class="chip invalid">objet architecture!</span></div>
+    <div class="section-title">Gold (verte = retrouvée, rouge = manquée)</div>
+    <div><span class="chip tp">décapitation</span><span class="chip fn">architecture</span><span class="chip fn">bourreau</span><span class="chip fn">chien</span><span class="chip fn">colonne</span><span class="chip fn">destruction</span><span class="chip fn">fortification</span><span class="chip fn">fourrure</span><span class="chip fn">idole</span><span class="chip fn">idolâtrie</span><span class="chip fn">mort (thème)</span><span class="chip fn">pavement</span><span class="chip fn">prière</span><span class="chip fn">refus</span><span class="chip fn">saint Félix</span><span class="chip fn">soldat</span><span class="chip fn">épée</span></div>
+    <details>
+      <summary>raw_prediction</summary>
+      <div class="raw">objet architecture / éléments d&#x27;architecture / arcade ; objet architecture / outils et instruments divers / corde ; objet architecture!objet architecture / objets liturgiques et funéraires / croix ; objet architecture!thème / peines corporelles et chatiments / décapitation ; objet architecture!nature lieu / éléments naturels et intempéries / eau ; objet architecture!personnage / personnages fantastiques et monstres / géant ; objet architecture!sujet / arts et savoirs / scène de chasse ; objet architecture!</div>
+    </details>
+  </div>
+</div>
+</div>
+<script>
+function sortExamples(mode){
+    const c = document.getElementById("examples");
+    const items = Array.from(c.children);
+    items.sort((a,b)=>{
+        if(mode==="index") return 0;
+        const fa=parseFloat(a.dataset.f1), fb=parseFloat(b.dataset.f1);
+        const ga=parseInt(a.dataset.gold), gb=parseInt(b.dataset.gold);
+        if(mode==="f1-asc") return fa-fb;
+        if(mode==="f1-desc") return fb-fa;
+        if(mode==="gold-desc") return gb-ga;
+        return 0;
+    });
+    items.forEach(i=>c.appendChild(i));
+}
+</script>
+</body></html>
